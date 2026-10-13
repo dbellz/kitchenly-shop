@@ -17,6 +17,15 @@ const demoProducts = [
 ];
 
 const state = { products: [...demoProducts], cart: {}, user: null, category: 'All', search: '', connected: false, successOrder: null, toastTimer: null };
+
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((error) => {
+      console.warn('Kitchenly could not enable offline app support.', error);
+    });
+  });
+}
+
 const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(value) || 0);
 const esc = (value = '') => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const count = () => Object.values(state.cart).reduce((sum, qty) => sum + qty, 0);
@@ -207,4 +216,3 @@ async function start() {
   render();
 }
 start();
-

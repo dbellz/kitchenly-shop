@@ -54,6 +54,15 @@ When you publish the shop, replace the local address with your published site ad
 
 The customer link is the Vercel address. Google sign-in and order saving work after the Supabase project, database setup, and Google provider are configured.
 
+## Install Kitchenly on a phone
+
+Kitchenly can be installed from its website on Android and iPhone. It does not need an app-store download.
+
+- **Android:** Open the Vercel website in Chrome, open the browser menu, and tap **Install app** or **Add to Home screen**.
+- **iPhone:** Open the Vercel website in Safari, tap **Share**, then **Add to Home Screen**.
+
+Use the same Vercel address to open the shop in a browser or install it on a phone. The shop needs an internet connection to load live products, sign in, and place orders.
+
 ## What happens when someone checks out?
 
 The browser asks Supabase to place the order. A database function checks the saved bag, confirms stock, calculates prices from the product table, writes the order and line items, reduces stock, and empties the bag together. If a step fails, the database rolls the whole checkout back, so it does not leave a half-finished order.
@@ -63,4 +72,3 @@ The database also has row-level security: each signed-in customer can access the
 ## Change products and prices
 
 For a simple first edit, open **Supabase → Table Editor → products** and change a product's name, price, stock, or active status. This starter displays US dollars. To use another currency, change the `money` formatter near the top of `src/app.js`.
-
