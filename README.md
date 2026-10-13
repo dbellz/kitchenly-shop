@@ -44,6 +44,16 @@ If Google's screens look different, follow Supabase's current [Google sign-in gu
 
 When you publish the shop, replace the local address with your published site address in both Google Cloud Console and Supabase URL Configuration. Keep the Google client secret in Supabase; it does not go in `.env` or browser code.
 
+## Publish the shop for customers
+
+1. Create an account at [Vercel](https://vercel.com/) and sign in with GitHub.
+2. Choose **Add New → Project**, import `dbellz/kitchenly-shop`, and deploy. Vercel recognizes this Vite project; the build command is `npm run build` and the output folder is `dist`.
+3. In the Vercel project's **Settings → Environment Variables**, add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` using your Supabase project URL and publishable/anon key. Do not use a `service_role` key. Redeploy after adding or changing these values.
+4. Vercel will give you a public address ending in `.vercel.app`. In Supabase **Authentication → URL Configuration**, set **Site URL** to that exact address and add it to **Redirect URLs**.
+5. In Google Cloud Console, add the website's origin (the address without a page path) under **Authorized JavaScript origins**. Keep the Supabase callback address under **Authorized redirect URIs**.
+
+The customer link is the Vercel address. Google sign-in and order saving work after the Supabase project, database setup, and Google provider are configured.
+
 ## What happens when someone checks out?
 
 The browser asks Supabase to place the order. A database function checks the saved bag, confirms stock, calculates prices from the product table, writes the order and line items, reduces stock, and empties the bag together. If a step fails, the database rolls the whole checkout back, so it does not leave a half-finished order.
